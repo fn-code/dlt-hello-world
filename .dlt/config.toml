@@ -3,10 +3,32 @@
 [runtime]
 log_level="WARNING"  # the system log level of dlt
 # use the dlthub_telemetry setting to enable/disable anonymous usage data reporting, see https://dlthub.com/docs/reference/telemetry
-dlthub_telemetry = true
+dlthub_telemetry = false
 
-[sources.rest_api]
-resources = ["a", "b", "c"] # fill this in!
 
-[sources.rest_api.client] # fill this in!
-key = "value"
+[sources.filesystem]
+bucket_url = "file://Users/ludinnento/funproject/python/dlt/hello-world/data-dest" # fill this in!
+
+[sources.chess]
+config_int = 0 # fill this in!
+[destination.filesystem] # in ./dlt/secrets.toml
+bucket_url="file://Users/ludinnento/funproject/python/dlt/hello-world/data"
+compression="none" # or "none", "bzip2", "xz", "zstd"
+file_format="csv" # or "parquet", "json", "avro", "ndjson", "csv"
+file_glob="*.csv" # or "*.parquet", "*.json", "*.avro", "*.ndjson", "*.csv"
+
+[pipeline] # in ./dlt/config.toml
+loader_file_format="csv"
+
+
+[normalize]
+loader_file_format="csv"
+
+
+[normalize.data_writer]
+disable_compression=true # set to true to disable compression
+quote_strings=false # set to true to quote all strings in the output files
+#delimiter="|"
+#include_header=false
+#quoting="quote_all"
+
